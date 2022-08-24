@@ -1,0 +1,32 @@
+{
+  "name": "scheduler",
+  "version": "1.0.0",
+  "description": "scheduler sends cron jobs(emails)",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BigYusuf/scheduler.git"
+  },
+  "keywords": [
+    "scheduler"
+  ],
+  "author": "Bigyusuf- mystik5551@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BigYusuf/scheduler/issues"
+  },
+  "homepage": "https://github.com/BigYusuf/scheduler#readme",
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.5.2",
+    "node-cron": "^3.0.2",
+    "sendgrid": "^5.2.3"
+  }
+}
