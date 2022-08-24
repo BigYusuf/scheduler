@@ -1,4 +1,5 @@
 const express = require('express');
+const connectDatabase = require('./db/database')
 const config = require('./config')
 const scheduler = require('./scheduler')
 const dotenv = require('dotenv');
@@ -10,6 +11,8 @@ const app = express()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//connecting to Database
+connectDatabase();
 
 //connecting to env file
 dotenv.config();
