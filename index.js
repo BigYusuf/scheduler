@@ -3,6 +3,7 @@ const connectDatabase = require('./db/database')
 const config = require('./config')
 const scheduler = require('./scheduler')
 const dotenv = require('dotenv');
+const userRouter = require('./routers/userRouter');
 
 scheduler.initCrons(config)
 
@@ -11,6 +12,7 @@ const app = express()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/api/users', userRouter);
 //connecting to Database
 connectDatabase();
 
