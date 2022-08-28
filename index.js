@@ -3,6 +3,7 @@ const connectDatabase = require('./db/database')
 const config = require('./config')
 const scheduler = require('./scheduler')
 const dotenv = require('dotenv');
+const cookieparser = require('cookie-parser');
 const userRouter = require('./routers/userRouter');
 
 scheduler.initCrons(config)
@@ -10,6 +11,7 @@ scheduler.initCrons(config)
 const app = express()
 
 app.use(express.json());
+app.use(cookieparser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/users', userRouter);
