@@ -8,8 +8,7 @@ const generateToken = (user) => {
       name: user.name,
       email: user.email,
       image: user.image,
-      isAdmin: user.isAdmin,
-      profession: user.profession,
+      role: user.role,
     },
     process.env.JWT_SECRET,
     {
@@ -19,7 +18,7 @@ const generateToken = (user) => {
 };
 
 
-
+//validate from cookie
 const isAuth = async(req, res, next) => {
 
 const token = req.cookies['access-token'];
@@ -55,7 +54,7 @@ const isAuth1 =(req, res, next) => {
   };
   
   const isAdmin = (req, res, next) => {
-    if (req.user && req.user.isAdmin) {
+    if (req.user && req.user.role==='admin') {
         next();
     } else {
       res.status(401).send({ message: 'Invalid Admin Token' });

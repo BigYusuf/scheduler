@@ -4,7 +4,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { generateToken } = require('../utils/jwt');
-const { sendMail, sendResetMail } = require('../utils/Emails');
+const { sendMail, sendResetMail, sendEmail1 } = require('../utils/Emails');
+const cron = require('node-cron');
 
 
 exports.getAllUsers = expressAsyncHandler(async (req, res) => {
@@ -144,14 +145,38 @@ exports.updateAdminUser = expressAsyncHandler(async (req, res) => {
     const userId = req.params.id;
     const user = await User.findById(userId);
     
-      if(user) {
-        user.name = req.body.name || user.name;
-        user.email = req.body.email || user.email;
-        user.role = req.body.role || user.role;
-       
-    const updatedUser = await user.save();
-    res.send({ message: 'User Updated', user: updatedUser });
-    }else{
+    if(user && !req.body.email1.fromTodayDay) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      user.role = req.body.role || user.role;
+      user.email1.status = req.body.email1.status || user.email1.status;
+      
+      const updatedUser = await user.save();
+      res.send({ message: 'User Updated', user: updatedUser });
+    }
+    else if(user && req.body.email1.fromTodayDay){
+      user.email1.fromTodayDay = req.body.email1.fromTodayDay || user.email1.fromTodayDay;
+      var someDate = new Date();
+      var numberOfDaysToAdd = req.body.email1.fromTodayDay;
+      var result = someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
+      user.email1.emailSendDate = new Date(result);
+      user.email1.status = 'pending';
+      const updatedUser = await user.save();
+      var dd =new Date(result).getDate()// added date
+      var mm =new Date(result).getMonth()// added date
+      if(user.email1.status==='pending' || !user.email1.status || user.email1.status===''){ 
+       // var h=11 //testing data hour
+       // var m=50 //testing data minutes
+       //  cron.schedule(`${m} ${h} * * *`, () => { //testing
+       cron.schedule(`* * ${dd} ${mm} *`, () => {
+        sendEmail1( req, updatedUser, updatedUser.email, updatedUser.name).then(result => console.log("Promotional Email(1st email) Sent ", result))
+        user.email1.status = 'sent';
+        const updatedUser1 = user.save();
+        res.send({ message: 'User email1 status updated', user: updatedUser1 });
+      });}
+      res.send({ message: 'User email1 send date updated', user: updatedUser });
+    }
+    else{
       res.status(404).send({ message: 'User Not Found' })
     }
 })

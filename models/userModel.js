@@ -12,6 +12,18 @@ const userSchema = new mongoose.Schema(
         emailToken: {type: String},
         isVerified: {type: Boolean},
         resetpasswordToken: {type: String},
+        email1: {
+            fromRegDay: {type: Number, default: 10},
+            fromTodayDay: {type: Number, default: 0},
+            emailSendDate: {type: Date},
+            status: {type: String},//sent or pending or stopped 
+        },
+        email2: {
+            fromRegDay: {type: Number, default: 10},
+            fromTodayDay: {type: Number, default: 0},
+            emailSendDate: {type: Date},
+            status: {type: String},//sent or pending or stopped 
+        },
     },
     {
         timestamps: true

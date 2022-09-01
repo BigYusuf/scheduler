@@ -25,5 +25,18 @@ const resetPasswordTemplate = (user, req) => {
     </p>
     `;
   };
+const PromoTemplate = (user, req) => {
+    return `<h1>1st Promotional Email</h1>
+    <p>
+    Hi ${user.name},</p>
+    <h2>Welccome to prommotional email.</h2>
+    <h4> Check out this cool portfolio and see the awesomeness of BigYusuf</h4>
+    <a href='http://yusuflateef.vercel.app'>Portfolio </a>
+    <hr/>
+    <p>
+    Yeah, It worked.
+    </p>
+    `;
+  };
   
-  module.exports= {verifyEmailTemplate, resetPasswordTemplate}
+  module.exports= {verifyEmailTemplate, resetPasswordTemplate, PromoTemplate}
